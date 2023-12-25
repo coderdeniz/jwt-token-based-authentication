@@ -26,6 +26,19 @@ namespace WebAPI.Controllers
         [HttpPost("Login")]
         public ActionResult Login(User user)
         {
+            bool userExist = _userRepository.IsExistUserByEmail(user.Email);
+            if (!userExist)
+            {
+                return Ok("User Bulunamadı");
+            }
+            
+            bool passCheck = _userRepository.Login(user.Email, user.Password);
+            if (!passCheck)
+            {
+                return Ok("Kullanıcı adı veya şifre hatalı");
+            }
+
+
 
             return Ok();
         }
