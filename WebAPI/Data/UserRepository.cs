@@ -25,5 +25,16 @@ namespace WebAPI.Data
         {
             return _context.Users.SingleOrDefault(u => u.Email == email && u.Password == password) != null ? true : false;
         }
+
+        public List<OperationClaim> OperationClaims(User user)
+        {
+            var result = from operationClaim in _context.OperationClaims
+                         join userOperationClaim in _context.UserOperationClaims
+                             on operationClaim.RecordId equals userOperationClaim.OperationClaimId
+                         where userOperationClaim.UserId == user.RecordId
+                         select new OperationClaim { RecordId = operationClaim.RecordId, Name = operationClaim.Name };
+
+            return result.ToList();
+        }
     }
 }

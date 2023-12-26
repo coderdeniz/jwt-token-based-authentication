@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class OperationClaim
+    public class UserOperationClaim
     {
         [Key]
         public int RecordId { get; set; }
-        public string Name { get; set; }
+        public int UserId { get; set; }
+        public int OperationClaimId { get; set; }
     }
 }

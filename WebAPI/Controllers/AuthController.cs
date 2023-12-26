@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Data;
@@ -10,10 +11,12 @@ namespace WebAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly ITokenHelper _tokenHelper;
 
-        public AuthController(IUserRepository userRepository)
+        public AuthController(IUserRepository userRepository, ITokenHelper tokenHelper)
         {
             _userRepository = userRepository;
+            _tokenHelper = tokenHelper;
         }
 
         [HttpGet("GetUsers")]
@@ -38,9 +41,11 @@ namespace WebAPI.Controllers
                 return Ok("Kullanıcı adı veya şifre hatalı");
             }
 
+            var userOperationClaims = _userRepository.OperationClaims(user);
 
+            var token = _tokenHelper.CreateToken(user, userOperationClaims);
 
-            return Ok();
+            return Ok(token);
         }
     }
 }

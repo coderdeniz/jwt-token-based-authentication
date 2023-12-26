@@ -1,3 +1,4 @@
+using Core.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -11,16 +12,23 @@ namespace WebAPI.Controllers
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private IHttpContextAccessor _httpContextAccessor;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(IHttpContextAccessor httpContextAccessor)
         {
-            _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            var roleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
+
+            if (!roleClaims.Contains("Admin"))
+            {
+                throw new Exception("Eriþim hatasý");
+            }
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

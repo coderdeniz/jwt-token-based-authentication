@@ -1,5 +1,10 @@
 
+using Core.Encryption;
+using Core.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using WebAPI.Data;
 
 namespace WebAPI
@@ -23,11 +28,30 @@ namespace WebAPI
                 return new UserRepository(appDbContext);
             });
 
+            builder.Services.AddSingleton<ITokenHelper, JwtHelper>();
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             builder.Services.AddDbContext<AppDbContext>(opt =>
             {
                 opt.UseInMemoryDatabase("mydb");
             });
 
+            var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+             .AddJwtBearer(options =>
+             {
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ValidateLifetime = true,
+                     ValidIssuer = tokenOptions.Issuer,
+                     ValidAudience = tokenOptions.Audience,
+                     ValidateIssuerSigningKey = true,
+                     IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+                 };
+             });
 
             var app = builder.Build();
 

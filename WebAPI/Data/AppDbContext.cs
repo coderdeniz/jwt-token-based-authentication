@@ -11,9 +11,31 @@ namespace WebAPI.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<UserOperationClaim>().HasData(
+                    new UserOperationClaim
+                    {
+                        RecordId = 1,
+                        OperationClaimId = 1,
+                        UserId = 1
+                    }
+                );
+            modelBuilder.Entity<OperationClaim>().HasData(
+                    new OperationClaim
+                    {
+                        RecordId = 1,
+                        Name = "Admin"
+                    },
+                    new OperationClaim
+                    {
+                        RecordId = 2,
+                        Name = "Müşteri"
+                    }
+                );
             modelBuilder.Entity<User>().HasData(
                     new User
                     {
