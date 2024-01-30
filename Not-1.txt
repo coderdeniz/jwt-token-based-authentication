@@ -1,0 +1,11 @@
+Cookie-based auth: web uygulamasý dýþ kaynaktan beslenmiyorsa db'den alýyorsa ve üyelik sistemi inþa etmek istiyorsak bu cookie bazlý kimlik doðrulama oluyor. Token'a burda ihtiyaç kalmýyor.
+
+Token-based auth: Client token daðýtýcý api'ye istek atar token'ini alýr, client kendi içerisinde bu tokeni tutar ve eriþmek istediði servise bu token ile gider.
+  Kullanýcý gerekmeyen durumlarda, token daðýtýcý, isteði atmaya yetkisi olacak client için özel yetki tanýmlayacak client bu token ile yetkisi olan api'ye istek atabilecek.
+  Kullanýcý olan durumlarda ise token daðýtýcý kendi içerisinde user'i kontrol eder varsa token döner.
+  Not: token daðýtýcý da kendi içerisinde token kontrol edebilir.
+
+
+
+
+
