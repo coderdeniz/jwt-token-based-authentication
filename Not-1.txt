@@ -6,6 +6,40 @@ Token-based auth: Client token daðýtýcý api'ye istek atar token'ini alýr, client
   Not: token daðýtýcý da kendi içerisinde token kontrol edebilir.
 
 
+ JWT: IETF tarafýndan sunulan standart bir token biçimidir. Bu tokeni kullanarak kimlik doðrulama ve yetkilendirme iþlemlerini gerçekleþtirebiliriz.
+ 3 parçadan oluþur; header, payload ve signature
+ Json data döner. 
+ Payload içerisinde sub alanýnda genelde kullanýcýnýn id'si tutulur. Özneyi belli eder.
+
+ Simetrik þifeleme: Þifrelenip imzalanan tokenla ayný þifre ile doðrulanýyorsa buna simetrik denir.
+ Asimetrik þifreleme: Private ve public key vardýr. Tokeni private key ile imzalýyoruz public key ile doðruluyoruz. Ýmzalama ve doðrulama farklý key'ler ile yapýlýyor.
+
+ Jwt okunur decode edilir ama decode edilmiþ yapýda bir þey deðiþtiðinde encode geri yapýlamaz keyi bilmesi lazým.
+
+ jwt base64 ile decode ediliyor.
+
+ Cookie bazlýda cookiyi baþka biri alýrsa sonsuza kadar kullanabilirken, token için bu durum expire süresi kadardýr.
+
+ Payload'da user pass gibi bilgileri paylaþmamak lazým onun yerine id, email, rol gibi alanlar taþýnabilir.
+
+ Payload'da tutulan alanlar OAuth2.0 protokolüne(kurallar bütünü) göre birer claim oluyor. Bu kimlik yetkilendirmede görev alýr.
+ 
+ Claim, kullanýcý hakkýnda tutulmuþ olan bilgilere denir. Kullanýcý id,email gibi alanlarýn hepsi claim'dir.
+ 
+ Diðer bir protokol OpenID Connect'ir bu kimlik doðrulamada görev alýr.
 
 
+ AccessToken: Jwt'nin kendisidir. Token isteyen api'lere request'in header'inde gönderilir. 
+
+ RefreshToken: AccessToken expire olduðu zaman yeni bir token almak için kullanýlan bir tokendir. Biçimi jwt deðildir. Biçimi herhangi bir string ifadedir guid gibi belirlenebilir. Tek olmasý gereken unique bir deðer olmasý. Refresh token yalnýzca token daðýtan api'ye gönderilir. 
+
+ Not: Accesstoken ömrü kýsa tutulur, refreshToken ömrü daha uzun tutulur.
+
+ Senaryo: Tokeni almýþ web ui, token isteyen api'ye gider, accesstoken süresi dolmuþsa api 401 döner, ui 401 aldýysa eðer tokenin ömrü dolmuþ olarak yorumlar ve refresh token ile birlikte authServer'a istek atar. AuthServer'da ilgili user'a ait refresh token varsa yeni bir accessToken döner ve yeni accessToken'i alan ui, api'ye istek atar ve sonucunu alýr (bu esnada kullanýcý durumdan haberdar olmaz). Eðer refreshToken'in da ömrü dolmuþ olsaydý kullanýcý login'e aktarýlýr ve baþtan yeni istekle auth'dan yeni access,refresh tokenlar alýnýr. 
+
+ not: refresh tokenlar user'larla birlikte db'ye kaydedilir. accessToken db'de tutulmaz.
+ 
+ günümüzde e-imza ssh gibi yapýlar asimetrik þifreleme ile gerçekleþtiriliyor.
+
+ not: accessToken payload'da ömür bilgisi de yazar.
 
