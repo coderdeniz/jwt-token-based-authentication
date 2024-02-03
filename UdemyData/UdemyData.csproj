@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <FrameworkReference Include="Microsoft.AspNetCore.App"></FrameworkReference>	
+    <ProjectReference Include="..\UdemyCore\UdemyCore.csproj" />
   </ItemGroup>
 
 </Project>
