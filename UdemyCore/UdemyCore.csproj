@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.15" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UdemyShared\UdemyShared.csproj" />
+  </ItemGroup>
+
 </Project>
