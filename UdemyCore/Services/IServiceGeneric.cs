@@ -17,6 +17,6 @@ namespace UdemyCore.Services
         Task<Response<IEnumerable<TDto>>> WhereAsync(Expression<Func<TEntity, bool>> predicate);
         Task<Response<TDto>> AddAsync(TDto entity);
         Task<Response<NoDataDto>> RemoveAsync(int id);
-        Task<Response<NoDataDto>> UpdateAsync(TDto entity);
+        Task<Response<NoDataDto>> UpdateAsync(TDto entity, int id);
     }
 }

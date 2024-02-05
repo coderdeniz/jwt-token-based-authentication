@@ -43,3 +43,25 @@ Token-based auth: Client token daðýtýcý api'ye istek atar token'ini alýr, client
 
  not: accessToken payload'da ömür bilgisi de yazar.
 
+
+ ------
+
+ SignService
+
+ -> Yardýmcý sýnýf rolü oynayacak.
+ -> Security Key oluþturacak
+
+ Options Pattern
+
+ -> appsettings.json'da tanýmlanacak jwt bilgilerini ona özel class ile eþleþtirme.
+ -> Program.cs'de gerekli DI yapýldý bunun adýna options pattern denir.
+
+ TokenService
+
+ -> Dýþ dünyaya açýlmayacak.
+ -> Kendi içerisinde token üretmekte görevli olacak.
+ -> ITokenService implement edecek
+
+
+
+

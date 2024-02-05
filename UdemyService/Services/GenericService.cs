@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using UdemyCore.Models;
 using UdemyCore.Repositories;
 using UdemyCore.Services;
 using UdemyShared.Dtos;
@@ -68,16 +71,41 @@ namespace UdemyService.Services
             }
 
             _genericRepository.Remove(isExistEntity);
+
+            await _unitOfWork.CommitAsync();
+
+            return Response<NoDataDto>.Success(StatusCodes.Status204NoContent);
         }
 
-        public Task<Response<NoDataDto>> UpdateAsync(TDto entity)
+        public async Task<Response<NoDataDto>> UpdateAsync(TDto entity, int id)
         {
-            throw new NotImplementedException();
+            var isExistEntity = await _genericRepository.GetByIdAsync(id);
+
+            if (isExistEntity == null)
+            {
+                return Response<NoDataDto>.Fail("ID not found", StatusCodes.Status404NotFound, true);
+            }
+
+            var updateEntity = ObjectMapper.Mapper.Map<TEntity>(entity);
+
+            _genericRepository.Update(updateEntity);
+
+            await _unitOfWork.CommitAsync();
+
+            return Response<NoDataDto>.Success(StatusCodes.Status204NoContent);
         }
 
-        public Task<Response<IEnumerable<TDto>>> WhereAsync(Expression<Func<TEntity, bool>> predicate)
+
+        /// <summary>
+        /// toList diyene kadar veritabanına yansımıyor yani memory'e çekilmiyor     
+        /// </summary>
+        public async Task<Response<IEnumerable<TDto>>> WhereAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            var list = _genericRepository.Where(predicate);
+
+            return Response<IEnumerable<TDto>>.Success(
+                ObjectMapper.Mapper.Map<IEnumerable<TDto>>(await list.ToListAsync()),
+                StatusCodes.Status200OK);
         }
     }
 }
