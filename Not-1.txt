@@ -61,7 +61,9 @@ Token-based auth: Client token dağıtıcı api'ye istek atar token'ini alır, client
  -> Dış dünyaya açılmayacak.
  -> Kendi içerisinde token üretmekte görevli olacak.
  -> ITokenService implement edecek
-
+ -> claim: token içerisinde payload'inda yer alan bilgilere denir. 
+ -> audiences: claim içerisinde yer alır hangi api'lere istek atabileceğini belirler.
+ -> issuer: claim içerisinde yer alır token'i kim yayınlıyor
 
 
 

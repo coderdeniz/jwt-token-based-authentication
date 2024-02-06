@@ -1,4 +1,5 @@
 
+using UdemyCore.Configuration;
 using UdemyShared.Configuration;
 
 namespace UdemyAuthServer.API
@@ -10,6 +11,7 @@ namespace UdemyAuthServer.API
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.Configure<CustomTokenOptions>(builder.Configuration.GetSection("TokenOptions"));
+            builder.Services.Configure<List<Client>>(builder.Configuration.GetSection("Clients"));
 
 
             // Add services to the container.
