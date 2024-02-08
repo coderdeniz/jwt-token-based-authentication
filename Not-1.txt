@@ -66,4 +66,17 @@ Token-based auth: Client token daðýtýcý api'ye istek atar token'ini alýr, client
  -> issuer: claim içerisinde yer alýr token'i kim yayýnlýyor
 
 
+ AuthServer.API 
 
+ -> Singleton: Uygulama boyunca tek bir instance oluþturacaktýr.
+ -> Transient: Her interface ile karþýlaþtýðýnda yeni bir nesne üretir.
+ -> Scoped: Tek bir istekte bir tane nesne örneði oluþacak ayný istek de birden fazla interface ile karþýlaþýrsa yine ayný nesneyi oluþturacak.
+
+
+ Migration
+
+ -> Data katmanýna gel
+ -> Package manager console 
+ -> add migration initial
+ -> json hatasý verirse app.settings'de sýkýntý olabilir.
+ -> 

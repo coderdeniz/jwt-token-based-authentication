@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using UdemyCore.Models;
@@ -26,6 +27,10 @@ namespace UdemyData
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(GetType().Assembly); // interface alanları getirir.
+
+            builder.Entity<IdentityUserLogin<string>>().HasNoKey();
+            builder.Entity<IdentityUserToken<string>>().HasNoKey();
+            builder.Entity<IdentityUserRole<string>>().HasNoKey();
         }
     }
 }
