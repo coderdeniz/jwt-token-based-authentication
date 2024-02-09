@@ -79,4 +79,6 @@ Token-based auth: Client token daðýtýcý api'ye istek atar token'ini alýr, client
  -> Package manager console 
  -> add migration initial
  -> json hatasý verirse app.settings'de sýkýntý olabilir.
- -> 
+ -> update-database veritabanýna uygula
+ -> aspnetuserLogins tablosu: facebook google gibi third party login'leri tutar
+

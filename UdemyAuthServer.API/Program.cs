@@ -104,7 +104,8 @@ namespace UdemyAuthServer.API
                 app.UseSwaggerUI();
             }
 
-
+            // authorize attribute çalýþmasý için gerekli middleware
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

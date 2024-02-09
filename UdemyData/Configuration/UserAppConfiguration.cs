@@ -8,7 +8,7 @@ namespace UdemyData.Configuration
     {
         public void Configure(EntityTypeBuilder<UserApp> builder)
         {
-            builder.Property(x => x.City).HasMaxLength(200);
+            builder.Property(x => x.City).HasMaxLength(200).IsRequired(false);
         }
     }
 }

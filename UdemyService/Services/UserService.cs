@@ -25,6 +25,7 @@ namespace UdemyService.Services
         {
             var user = new UserApp
             {
+                Id  = Guid.NewGuid().ToString(),
                 UserName = createUserDto.UserName,
                 Email = createUserDto.Email
             };
