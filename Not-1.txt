@@ -82,3 +82,8 @@ Token-based auth: Client token daðýtýcý api'ye istek atar token'ini alýr, client
  -> update-database veritabanýna uygula
  -> aspnetuserLogins tablosu: facebook google gibi third party login'leri tutar
 
+
+ CustomExceptionHandler
+
+ -> Hatalarý handle etmek için extension method yazýyoruz IApplicationBuilder'e
+ -> Run methodlarý sonladýrýcý, use methodlarý ise devam ettirici þekildedir middleware'ler için.

@@ -1,4 +1,7 @@
 
+using UdemyShared.Configuration;
+using UdemyShared.Extensions;
+
 namespace UdemyMiniAppNoUser.API
 {
     public class Program
@@ -14,6 +17,11 @@ namespace UdemyMiniAppNoUser.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // jwt auth
+            builder.Services.Configure<CustomTokenOptions>(builder.Configuration.GetSection("TokenOptions"));
+            var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<CustomTokenOptions>();
+            builder.Services.AddCustomTokenAuth(tokenOptions);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -23,6 +31,7 @@ namespace UdemyMiniAppNoUser.API
                 app.UseSwaggerUI();
             }
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UdemyCore.DTOs;
 using UdemyCore.Services;
+using UdemyShared.Exceptions;
 
 namespace UdemyAuthServer.API.Controllers
 {
@@ -31,7 +32,7 @@ namespace UdemyAuthServer.API.Controllers
         public async Task<IActionResult> CreateTokenByClient(ClientLoginDto clientLoginDto)
         {
             var result = await _authenticationService.CreateTokenByClient(clientLoginDto);
-
+            throw new CustomException("deniz test");
             return ActionResultInstance(result);
         }
 

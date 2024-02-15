@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using UdemyData;
 using UdemyData.Repositories;
 using UdemyService.Services;
 using UdemyShared.Configuration;
+using UdemyShared.Extensions;
 
 namespace UdemyAuthServer.API
 {
@@ -90,12 +92,21 @@ namespace UdemyAuthServer.API
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+
+            builder.Services.AddControllers().AddFluentValidation(opt =>
+            {
+                opt.RegisterValidatorsFromAssemblyContaining<Program>();
+            });
+
+            builder.Services.UseCustomValidationResponse();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            app.UseCustomException();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
