@@ -39,8 +39,11 @@ namespace UdemyService.Services
             return Convert.ToBase64String(numberByte);
         }
 
-        private IEnumerable<Claim> GetClaims(UserApp userApp, List<string> audiences)
+        private async Task<IEnumerable<Claim>> GetClaims(UserApp userApp, List<string> audiences)
         {
+            var userRoles = await _userManager.GetRolesAsync(userApp);
+            // ["admin", "manager"]
+
             var userList = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, userApp.Id),
@@ -50,6 +53,8 @@ namespace UdemyService.Services
             };
 
             userList.AddRange(audiences.Select(a => new Claim(JwtRegisteredClaimNames.Aud, a)));
+
+            userList.AddRange(userRoles.Select(r => new Claim(ClaimTypes.Role,r)));
 
             return userList;
         }
@@ -67,7 +72,7 @@ namespace UdemyService.Services
             return clientClaims;
         }
 
-        public TokenDto CreateToken(UserApp userApp)
+        public async Task<TokenDto> CreateTokenAsync(UserApp userApp)
         {
             var refreshTokenExpiration = DateTime.Now.AddMinutes(_customTokenOptions.RefreshTokenExpiration);
             var accessTokenExpiration = DateTime.Now.AddMinutes(_customTokenOptions.AccessTokenExpiration);
@@ -80,7 +85,7 @@ namespace UdemyService.Services
                     issuer: _customTokenOptions.Issuer, // tokeni yayınlayan kim
                     expires: accessTokenExpiration,
                     notBefore: DateTime.Now,
-                    claims: GetClaims(userApp, _customTokenOptions.Audience),
+                    claims: await GetClaims(userApp, _customTokenOptions.Audience),
                     signingCredentials: signingCredentials
                 );
 

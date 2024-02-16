@@ -56,7 +56,7 @@ namespace UdemyService.Services
                 return Response<TokenDto>.Fail("Email or Password is wrong", StatusCodes.Status400BadRequest, true);
             }
 
-            var token = _tokenService.CreateToken(user);
+            var token = await _tokenService.CreateTokenAsync(user);
 
             var userRefreshToken = await _userRefreshTokenRepository.Where(x => x.UserId == user.Id).SingleOrDefaultAsync();
 
@@ -110,7 +110,7 @@ namespace UdemyService.Services
                 return Response<TokenDto>.Fail("User id not found", StatusCodes.Status404NotFound, true);
             }
 
-            var tokenDto = _tokenService.CreateToken(user);
+            var tokenDto = await _tokenService.CreateTokenAsync(user);
 
             refreshTokenFromDb.Token = tokenDto.RefreshToken;
             refreshTokenFromDb.Expiration = tokenDto.RefreshTokenExpiration;
