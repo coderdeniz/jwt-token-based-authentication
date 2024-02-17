@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace UdemyMiniApp1.API.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin",Policy = "AnkaraPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class StockController : ControllerBase

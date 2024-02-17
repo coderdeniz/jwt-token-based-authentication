@@ -87,3 +87,16 @@ Token-based auth: Client token daðýtýcý api'ye istek atar token'ini alýr, client
 
  -> Hatalarý handle etmek için extension method yazýyoruz IApplicationBuilder'e
  -> Run methodlarý sonladýrýcý, use methodlarý ise devam ettirici þekildedir middleware'ler için.
+
+ RoleBased
+
+ -> Token doðru ama yetki yoksa 403 Forbidden döner.
+
+
+Claim-Based Authorization
+
+-> Claim, kullanýcý hakkýnda tuttuðumuz key-value çiftidir.
+
+
+
+

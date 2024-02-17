@@ -23,6 +23,14 @@ namespace UdemyMiniApp1.API
             var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<CustomTokenOptions>();
             builder.Services.AddCustomTokenAuth(tokenOptions);
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AnkaraPolicy", policy =>
+                {
+                    policy.RequireClaim("city", "ankara");
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
