@@ -43,3 +43,60 @@ Token-based auth: Client token daðýtýcý api'ye istek atar token'ini alýr, client
 
  not: accessToken payload'da ömür bilgisi de yazar.
 
+
+ ------
+
+ SignService
+
+ -> Yardýmcý sýnýf rolü oynayacak.
+ -> Security Key oluþturacak
+
+ Options Pattern
+
+ -> appsettings.json'da tanýmlanacak jwt bilgilerini ona özel class ile eþleþtirme.
+ -> Program.cs'de gerekli DI yapýldý bunun adýna options pattern denir.
+
+ TokenService
+
+ -> Dýþ dünyaya açýlmayacak.
+ -> Kendi içerisinde token üretmekte görevli olacak.
+ -> ITokenService implement edecek
+ -> claim: token içerisinde payload'inda yer alan bilgilere denir. 
+ -> audiences: claim içerisinde yer alýr hangi api'lere istek atabileceðini belirler.
+ -> issuer: claim içerisinde yer alýr token'i kim yayýnlýyor
+
+
+ AuthServer.API 
+
+ -> Singleton: Uygulama boyunca tek bir instance oluþturacaktýr.
+ -> Transient: Her interface ile karþýlaþtýðýnda yeni bir nesne üretir.
+ -> Scoped: Tek bir istekte bir tane nesne örneði oluþacak ayný istek de birden fazla interface ile karþýlaþýrsa yine ayný nesneyi oluþturacak.
+
+
+ Migration
+
+ -> Data katmanýna gel
+ -> Package manager console 
+ -> add migration initial
+ -> json hatasý verirse app.settings'de sýkýntý olabilir.
+ -> update-database veritabanýna uygula
+ -> aspnetuserLogins tablosu: facebook google gibi third party login'leri tutar
+
+
+ CustomExceptionHandler
+
+ -> Hatalarý handle etmek için extension method yazýyoruz IApplicationBuilder'e
+ -> Run methodlarý sonladýrýcý, use methodlarý ise devam ettirici þekildedir middleware'ler için.
+
+ RoleBased
+
+ -> Token doðru ama yetki yoksa 403 Forbidden döner.
+
+
+Claim-Based Authorization
+
+-> Claim, kullanýcý hakkýnda tuttuðumuz key-value çiftidir.
+
+
+
+
